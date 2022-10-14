@@ -11,17 +11,19 @@ using Xunit;
 
 namespace RealWorldUnitTest.Test
 {
-    public class ProductControllerTestWithInMemory : ProductControllerTest
+    public class ProductControllerTestWithSQLServerLocalDB : ProductControllerTest
     {
-        public ProductControllerTestWithInMemory()
+        public ProductControllerTestWithSQLServerLocalDB()
         {
-            SetContextOptions(new DbContextOptionsBuilder<UnitTestDbContext>().UseInMemoryDatabase("UnitTestInMemoryDb").Options);
+            var sqlConnection =  @"Server=(localdb)\MSSQLLocalDB;Database=TestDb,Trusted_Connection=true,MultipleActiveResultSets=true";
+
+            SetContextOptions(new DbContextOptionsBuilder<UnitTestDbContext>().UseSqlServer(sqlConnection).Options);
         }
 
         [Fact]
         public async Task Create_ModelValidProduct_ReturnRedirectToActionWithSaveProduct()
         {
-            var newProduct = new Product { Name = "Kalem 30", Price = 200, Stock = 100 };
+            var newProduct = new Product { Name = "Kalem 30", Price = 200, Stock = 100,Color="Mavi" };
             using (var context = new UnitTestDbContext(_contextOptions))
             {
                 var category = context.Category.First();
@@ -67,7 +69,7 @@ namespace RealWorldUnitTest.Test
                 var products = await context.Product.Where(x => x.CategoryId == categoryId).ToListAsync();
 
                 //Boş olamamsı lağzım yani verisilindiğinde ilişkileri silinmemesi gerekir
-                Assert.NotEmpty(products);
+                Assert.Empty(products);
             }
         }
 

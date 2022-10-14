@@ -15,6 +15,7 @@ namespace RealWorldUnitTest.Test
         public void SetContextOptions(DbContextOptions<UnitTestDbContext> contextOptions)
         {
             _contextOptions = contextOptions;
+            Seed();
         }
 
         public void Seed()
@@ -27,7 +28,7 @@ namespace RealWorldUnitTest.Test
                 context.Category.Add(new Category { Name = "Kalemler" });
                 context.Category.Add(new Category { Name = "Defterler" });
                 context.SaveChanges();
-
+                
                 context.Product.Add(new Product() { CategoryId = 1, Name = "Kalem 10", Price = 100, Stock = 100, Color = "Kırmızı" });
                 context.Product.Add(new Product() { CategoryId = 1, Name = "Kalem 20", Price = 100, Stock = 100, Color = "Mavi" });
                 context.SaveChanges();
