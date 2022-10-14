@@ -16,6 +16,7 @@ namespace RealWorldUnitTest.Web.Models
         }
 
         public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<Category> Category { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +28,8 @@ namespace RealWorldUnitTest.Web.Models
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
             });
+
+            //modelBuilder.Entity<Category>().HasData(new Category { Id = 1, Name = "Kalemler" }, new Category() { Id = 2, Name = "Defterler" });
 
             OnModelCreatingPartial(modelBuilder);
         }
